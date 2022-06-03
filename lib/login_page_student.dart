@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:library_system/login_page_admin.dart';
+import 'package:library_system/student_book.dart';
 
 class LoginPageStudent extends StatefulWidget {
   const LoginPageStudent({Key? key}) : super(key: key);
@@ -9,9 +13,28 @@ class LoginPageStudent extends StatefulWidget {
 }
 
 class _LoginPageStudentState extends State<LoginPageStudent> {
+  TextEditingController user = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  Future<List> login() async {
+    final response =
+        await http.post(Uri.parse("http://10.0.2.2/login/login.php"), body: {
+      "username": user.text,
+      "password": password.text,
+    });
+
+    var datauser = json.decode(response.body);
+
+    if (datauser[0]['level'] == 'admin') {
+      print(datauser);
+    }
+    return datauser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
@@ -42,13 +65,14 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Agu mail',
                       ),
+                      controller: user,
                     ),
                   ),
                 ),
@@ -64,7 +88,7 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(left: 20.0),
                     child: TextField(
                       obscureText: true,
@@ -72,6 +96,7 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                         border: InputBorder.none,
                         hintText: 'Password',
                       ),
+                      controller: password,
                     ),
                   ),
                 ),
@@ -87,13 +112,22 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                     color: Colors.deepPurple,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        login();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StudentBook()));
+                      },
+                      child: const Text(
+                        'Sign in',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
