@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_system/change_status.dart';
+
+import 'addbook_page.dart';
 
 class AdminMainPage extends StatelessWidget {
   const AdminMainPage({Key? key}) : super(key: key);
@@ -81,15 +84,99 @@ class AdminMainPage extends StatelessWidget {
                             title: 'Update Books',
                             imagePath:
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCjKLg5bpIQa_yCH3wCU_G90nPInE8W57-Ww&usqp=CAU'),
-                        MenuCard(
-                            title: 'Change Status',
-                            imagePath:
-                                'https://meaning-dictionary.com/wp-content/uploads/2021/06/11.jpg'),
-                        MenuCard(
-                          title: 'Add/Remove a Book',
-                          imagePath:
-                              'https://www.shareicon.net/data/256x256/2016/06/27/623443_book_256x256.png',
+
+
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 17),
+                                  blurRadius: 17,
+                                  spreadRadius: -23,
+                                  color: Colors.red,
+                                )
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeStatus()));
+
+                              },
+                              child: Column(
+                                children: [
+                                  Spacer(),
+                                  Image.network(
+                                      'https://meaning-dictionary.com/wp-content/uploads/2021/06/11.jpg',
+                                      height: 80),
+                                  Spacer(),
+                                  Text(
+                                    'Change Status',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
+                        //
+                        // MenuCard(
+                        //     title: 'Change Status',
+                        //     imagePath:
+                        //         'https://meaning-dictionary.com/wp-content/uploads/2021/06/11.jpg'),
+
+
+                        // MenuCard(
+                        //   title: 'Add/Remove a Book',
+                        //   imagePath:
+                        //       'https://www.shareicon.net/data/256x256/2016/06/27/623443_book_256x256.png',
+                        // ),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 17),
+                                  blurRadius: 17,
+                                  spreadRadius: -23,
+                                  color: Colors.red,
+                                )
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddBookPage()));
+
+                              },
+                              child: Column(
+                                children: [
+                                  Spacer(),
+                                  Image.network(
+                                      'https://www.shareicon.net/data/256x256/2016/06/27/623443_book_256x256.png',
+                                      height: 80),
+                                  Spacer(),
+                                  Text(
+                                    'Add a Book',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+
+
                         MenuCard(
                           title: 'Edit Other Things',
                           imagePath:

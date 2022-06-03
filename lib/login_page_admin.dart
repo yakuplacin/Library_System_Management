@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:library_system/login_page_student.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'admin_main_page.dart';
 
 class LoginPageAdmin extends StatefulWidget {
@@ -11,9 +12,35 @@ class LoginPageAdmin extends StatefulWidget {
 }
 
 class _LoginPageAdminState extends State<LoginPageAdmin> {
+  TextEditingController user = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  List test = [];
+
+  Future<List> login() async {
+    final response =
+        await http.post(Uri.parse("http://10.0.2.2/login/login.php"), body: {
+      "username": user.text,
+      "password": password.text,
+    });
+
+    var datauser = json.decode(response.body);
+
+    if (datauser[0]['level'] == 'admin') {
+      print(datauser);
+    }
+    setState(() {
+      test = datauser;
+      print(datauser);
+      print(test);
+    });
+    return datauser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
@@ -44,13 +71,14 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(left: 20.0),
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'AGU mail',
                       ),
+                      controller: user,
                     ),
                   ),
                 ),
@@ -66,7 +94,7 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(left: 20.0),
                     child: TextField(
                       obscureText: true,
@@ -74,6 +102,7 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                         border: InputBorder.none,
                         hintText: 'Password',
                       ),
+                      controller: password,
                     ),
                   ),
                 ),
@@ -91,12 +120,15 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                   ),
                   child: Center(
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdminMainPage()),
-                            (route) => false);
+                      onPressed: () async {
+                        await login();
+                        if (test[0]['level'] == 'admin') {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminMainPage()),
+                              (route) => false);
+                        }
                       },
                       child: Text(
                         'Sign in',
