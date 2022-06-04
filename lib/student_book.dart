@@ -13,7 +13,7 @@ class StudentBook extends StatefulWidget {
 
 class _StudentBookState extends State<StudentBook> {
   void initState() {
-   // print('Init is started here');
+    // print('Init is started here');
     generateBookList();
   }
 
@@ -49,19 +49,35 @@ class _StudentBookState extends State<StudentBook> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${books[index].book_id} '),
-                    Text('${books[index].book_genre} '),
-                    Text('${books[index].book_title} '),
-                    Text('${books[index].book_status} '),
-                    Text('${books[index].ISBN} '),
-                    Text('${books[index].publisher_id} '),
-                    Text('${books[index].author_id} '),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${books[index].book_id} ',
+                            ),
+                            Text('${books[index].book_genre} '),
+                            Text('${books[index].book_title} '),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('${books[index].book_status} '),
+                            Text('${books[index].ISBN} '),
+                            Text('${books[index].publisher_id} '),
+                            Text('${books[index].author_id} '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
             );
           },
-        )
-    );
+        ));
   }
 }

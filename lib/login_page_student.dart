@@ -16,6 +16,8 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
   TextEditingController user = TextEditingController();
   TextEditingController password = TextEditingController();
 
+  var datause;
+
   Future<List> login() async {
     final response =
         await http.post(Uri.parse("http://10.0.2.2/login/login.php"), body: {
@@ -23,12 +25,18 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
       "password": password.text,
     });
 
-    var datauser = json.decode(response.body);
 
-    if (datauser[0]['level'] == 'admin') {
-      print(datauser);
+    var dataset = json.decode(response.body);
+
+    if (dataset[0]['level'] == 'admin') {
+      print(dataset);
     }
-    return datauser;
+
+    setState(() {
+      datause = dataset;
+    });
+
+    return dataset;
   }
 
   @override
@@ -116,10 +124,28 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                     child: TextButton(
                       onPressed: () {
                         login();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StudentBook()));
+                        if(datause != null){
+                          if (datause[0]['level'] == 'student' ||
+                              datause[0]['level'] == 'Student' ||
+                              datause[0]['level'].toLowerCase() == 'student') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StudentBook()));
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'There is no user corresponding to the this mail and password boxes!\n\nTry again',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        }
                       },
                       child: const Text(
                         'Sign in',

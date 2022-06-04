@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_system/change_status.dart';
+import 'package:library_system/updatebook_page.dart';
 
 import 'addbook_page.dart';
 
@@ -80,11 +81,51 @@ class AdminMainPage extends StatelessWidget {
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       children: [
-                        MenuCard(
-                            title: 'Update Books',
-                            imagePath:
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCjKLg5bpIQa_yCH3wCU_G90nPInE8W57-Ww&usqp=CAU'),
-
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 17),
+                                  blurRadius: 17,
+                                  spreadRadius: -23,
+                                  color: Colors.red,
+                                )
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            UpdateBookPage()));
+                              },
+                              child: Column(
+                                children: [
+                                  Spacer(),
+                                  Image.network(
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCjKLg5bpIQa_yCH3wCU_G90nPInE8W57-Ww&usqp=CAU',
+                                      height: 80),
+                                  Spacer(),
+                                  Text(
+                                    'Update Book',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // MenuCard(
+                        //     title: 'Update Books',
+                        //     imagePath:
+                        //         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCjKLg5bpIQa_yCH3wCU_G90nPInE8W57-Ww&usqp=CAU'),
 
                         Container(
                           padding: EdgeInsets.all(20),
@@ -103,8 +144,10 @@ class AdminMainPage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeStatus()));
-
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChangeStatus()));
                               },
                               child: Column(
                                 children: [
@@ -116,7 +159,7 @@ class AdminMainPage extends StatelessWidget {
                                   Text(
                                     'Change Status',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w400),
+                                        TextStyle(fontWeight: FontWeight.w400),
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -129,7 +172,6 @@ class AdminMainPage extends StatelessWidget {
                         //     title: 'Change Status',
                         //     imagePath:
                         //         'https://meaning-dictionary.com/wp-content/uploads/2021/06/11.jpg'),
-
 
                         // MenuCard(
                         //   title: 'Add/Remove a Book',
@@ -153,8 +195,10 @@ class AdminMainPage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddBookPage()));
-
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddBookPage()));
                               },
                               child: Column(
                                 children: [
@@ -174,8 +218,6 @@ class AdminMainPage extends StatelessWidget {
                             ),
                           ),
                         ),
-
-
 
                         MenuCard(
                           title: 'Edit Other Things',
