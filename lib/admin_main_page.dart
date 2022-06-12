@@ -144,10 +144,13 @@ class AdminMainPage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChangeStatus()));
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChangeStatus(),
+                                  ),
+                                  (route) => false,
+                                );
                               },
                               child: Column(
                                 children: [

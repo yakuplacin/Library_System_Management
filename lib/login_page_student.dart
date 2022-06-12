@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:library_system/login_page_admin.dart';
 import 'package:library_system/student_book.dart';
+import 'package:library_system/student_main_page.dart';
 
 class LoginPageStudent extends StatefulWidget {
   const LoginPageStudent({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
     setState(() {
       datause = dataset;
     });
-
+    print(dataset[0]);
     return dataset;
   }
 
@@ -131,7 +132,7 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => StudentBook()));
+                                    builder: (context) => StudentMainPage(datause)));
                           } else {
                             showDialog(
                               context: context,

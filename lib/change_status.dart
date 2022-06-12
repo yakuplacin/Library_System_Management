@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'Book.dart';
+import 'admin_main_page.dart';
 
 class ChangeStatus extends StatefulWidget {
   const ChangeStatus({Key? key}) : super(key: key);
@@ -127,8 +128,6 @@ class StatusChangePlace extends StatefulWidget {
 }
 
 class _StatusChangePlaceState extends State<StatusChangePlace> {
-
-
   Future giveBook() async {
     print('${widget.book_id} asdasd');
     final response = await http
@@ -143,6 +142,19 @@ class _StatusChangePlaceState extends State<StatusChangePlace> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeStatus(),
+                  ),
+                  (route) => false);
+            },
+            icon: Icon(Icons.arrow_back_outlined),
+          ),
+        ),
         body: Material(
           child: ListTile(
             leading: Column(
