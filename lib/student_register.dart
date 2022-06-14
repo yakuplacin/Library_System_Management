@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +12,6 @@ class StudentRegister extends StatefulWidget {
 
 class _StudentRegisterState extends State<StudentRegister> {
   Future addStudent() async {
-    print(myControllerStudentID.text);
-    print(myControllerPassword.text);
-    print(myControllerEmail.text);
-    print(myControllerName.text);
-    print(myControllerSurname.text);
     final response = await http
         .post(Uri.parse("http://10.0.2.2/login/studentregister.php"), body: {
       "student_id": myControllerStudentID.text,
@@ -25,6 +19,9 @@ class _StudentRegisterState extends State<StudentRegister> {
       "student_surname": myControllerSurname.text,
       "email": myControllerEmail.text,
       "password": myControllerPassword.text,
+      "id": myControllerStudentID.text,
+      "username": myControllerEmail.text,
+      "level": "student"
     });
     //var dataBook = json.decode(response.body);
   }
