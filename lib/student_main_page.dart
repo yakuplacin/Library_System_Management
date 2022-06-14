@@ -107,6 +107,7 @@ class _StudentMainPageState extends State<StudentMainPage> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
+                                print(widget.datause[0]['username']);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
