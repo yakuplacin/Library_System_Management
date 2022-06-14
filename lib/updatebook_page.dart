@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'admin_main_page.dart';
+
 class UpdateBookPage extends StatefulWidget {
   const UpdateBookPage({Key? key}) : super(key: key);
 
@@ -36,6 +38,20 @@ class _UpdateBookPageState extends State<UpdateBookPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Update A Book'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminMainPage(),
+                  ),
+                      (route) => false);
+            },
+          ),
+        ),
         resizeToAvoidBottomInset: false,
         body: Column(
           children: [

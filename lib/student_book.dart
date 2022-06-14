@@ -13,6 +13,7 @@ class StudentBook extends StatefulWidget {
 
 class _StudentBookState extends State<StudentBook> {
   void initState() {
+    setState(() {});
     // print('Init is started here');
     generateBookList();
   }
@@ -24,10 +25,10 @@ class _StudentBookState extends State<StudentBook> {
     // Give your sever URL of get_employees_details.php file
     var url = Uri.parse('http://10.0.2.2/login/book.php');
     final response =
-    await http.get(Uri.parse('http://10.0.2.2/login/book.php'));
+        await http.get(Uri.parse('http://10.0.2.2/login/book.php'));
     var list = json.decode(response.body);
     List<Book> book =
-    await list.map<Book>((json) => Book.fromJson(json)).toList();
+        await list.map<Book>((json) => Book.fromJson(json)).toList();
     print(book);
     setState(() {
       books = book;

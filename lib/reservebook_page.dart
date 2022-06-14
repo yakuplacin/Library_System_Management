@@ -35,9 +35,10 @@ class _ReserveBookPageState extends State<ReserveBookPage> {
       DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
 
   Future reserveBook() async {
-    // print(widget.datause[0]['student_id']);
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2/login/reservebook.php"), body: {
+     print(widget.datause[0]['id']);
+     print(widget.book_id);
+     print(formattedDate);
+    final response = await http.post(Uri.parse("http://10.0.2.2/login/reservebook.php"), body: {
       "book_id": widget.book_id,
       "student_id": widget.datause[0]['id'],
       "date": formattedDate,
@@ -101,7 +102,7 @@ class _ReserveBookPageState extends State<ReserveBookPage> {
                           if (widget.book_status == 'exist') {
                             reserveBook();
                             setState(() {
-                              //   widget.book_status = "reserve";
+                                 widget.book_status = "reserve";
                             });
 //                          Navigator.pop(context);
                           } else {

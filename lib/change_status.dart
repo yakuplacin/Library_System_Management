@@ -38,6 +38,20 @@ class _ChangeStatusState extends State<ChangeStatus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Change A Book\'s Status'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminMainPage(),
+                ),
+                (route) => false);
+          },
+        ),
+      ),
       body: ListView.builder(
           itemCount: books.length,
           itemBuilder: (BuildContext context, int index) {
