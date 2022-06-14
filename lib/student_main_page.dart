@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_system/authors.dart';
 import 'package:library_system/change_status.dart';
 import 'package:library_system/findbook.dart';
 import 'package:library_system/updatebook_page.dart';
@@ -238,6 +239,48 @@ class _StudentMainPageState extends State<StudentMainPage> {
                         //   imagePath:
                         //   'https://i1.sndcdn.com/avatars-000756983419-d4lyj9-t500x500.jpg',
                         // )
+
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 17),
+                                  blurRadius: 17,
+                                  spreadRadius: -23,
+                                  color: Colors.red,
+                                )
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AuthorsName('3'))); //You can change the author_id here
+                              },
+                              child: Column(
+                                children: [
+                                  Spacer(),
+                                  Image.network(
+                                      'https://assets.aboutamazon.com/dims4/default/71b222e/2147483647/strip/true/crop/2000x1074+0+130/resize/1440x773!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F56%2F01%2F834aa61747c19ef723f0b48ec134%2F20180517nealthompsonauthor-js-11.jpg',
+                                      height: 80),
+                                  Spacer(),
+                                  Text(
+                                    'Authors',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
