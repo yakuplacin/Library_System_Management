@@ -126,6 +126,11 @@ class _LoginPageStudentState extends State<LoginPageStudent> {
                       child: TextButton(
                         onPressed: () {
                           login();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      StudentMainPage(datause)));
                           if (datause != null) {
                             if (datause[0]['level'] == 'student' ||
                                 datause[0]['level'] == 'Student' ||

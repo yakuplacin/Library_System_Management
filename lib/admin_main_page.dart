@@ -61,20 +61,7 @@ class AdminMainPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
-                    height: 40,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      'Choose your Topic',
-                      style: TextStyle(),
-                    ),
-                  ),
+                  SizedBox(height: 60,),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -107,9 +94,8 @@ class AdminMainPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Spacer(),
-                                  Image.network(
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCjKLg5bpIQa_yCH3wCU_G90nPInE8W57-Ww&usqp=CAU',
-                                      height: 80),
+                                  Image.asset(
+                                      'assets/images/update.png',width: 90,),
                                   Spacer(),
                                   Text(
                                     'Update Book',
@@ -155,8 +141,8 @@ class AdminMainPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Spacer(),
-                                  Image.network(
-                                      'https://meaning-dictionary.com/wp-content/uploads/2021/06/11.jpg',
+                                  Image.asset(
+                                      'assets/images/status.png',
                                       height: 80),
                                   Spacer(),
                                   Text(
@@ -206,8 +192,8 @@ class AdminMainPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Spacer(),
-                                  Image.network(
-                                      'https://www.shareicon.net/data/256x256/2016/06/27/623443_book_256x256.png',
+                                  Image.asset(
+                                      'assets/images/add.png',
                                       height: 80),
                                   Spacer(),
                                   Text(
@@ -225,7 +211,7 @@ class AdminMainPage extends StatelessWidget {
                         MenuCard(
                           title: 'Edit Other Things',
                           imagePath:
-                              'https://i1.sndcdn.com/avatars-000756983419-d4lyj9-t500x500.jpg',
+                          'assets/images/edit.png',
                         )
                       ],
                     ),
@@ -269,7 +255,7 @@ class MenuCard extends StatelessWidget {
           child: Column(
             children: [
               Spacer(),
-              Image.network(imagePath, height: 80),
+              Image.asset(imagePath, height: 80),
               Spacer(),
               Text(
                 title,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:library_system/ui/constants.dart';
 
 import 'admin_main_page.dart';
 
@@ -39,7 +41,8 @@ class _UpdateBookPageState extends State<UpdateBookPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Update A Book'),
+          centerTitle: true,
+          title: Text('Update A Book',style: TextStyle(color: Colors.black),),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -55,59 +58,93 @@ class _UpdateBookPageState extends State<UpdateBookPage> {
         resizeToAvoidBottomInset: false,
         body: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Book ID',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Book ID',
+                ),
+                controller: book_id,
               ),
-              controller: book_id,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Publisher ID',
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Publisher ID',
+                ),
+                controller: publisher_id,
               ),
-              controller: publisher_id,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Author ID',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Author ID',
+                ),
+                controller: author_id,
               ),
-              controller: author_id,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Book Title',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Book Title',
+                ),
+                controller: book_title,
               ),
-              controller: book_title,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Book Status',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Book Status',
+                ),
+                controller: book_status,
               ),
-              controller: book_status,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Book Genre',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Book Genre',
+                ),
+                controller: book_genre,
               ),
-              controller: book_genre,
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'ISBN',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'ISBN',
+                ),
+                controller: ISBN,
               ),
-              controller: ISBN,
             ),
+            Expanded(child: Text("")),
             ElevatedButton(
+              style: ButtonStyle(backgroundColor:  MaterialStateProperty.all(kPrimaryColor),),
               child: Text('Update Book'),
               onPressed: () {
                 updatedata();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(
+                        'The book has been updated!',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ],
