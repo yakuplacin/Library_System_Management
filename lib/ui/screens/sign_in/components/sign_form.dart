@@ -10,7 +10,6 @@ import '../../../helper/keyboard.dart';
 import '../../../size_config.dart';
 import '../../forgot_password/forgot_password_screen.dart';
 import '../../login_success/login_success_screen.dart';
-import 'package:crypt/crypt.dart';
 
 class SignForm extends StatefulWidget {
   static var datause;
