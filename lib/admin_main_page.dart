@@ -1,12 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_system/Book.dart';
 import 'package:library_system/change_status.dart';
+import 'package:library_system/ui/screens/cart/cart_screen.dart';
+import 'package:library_system/ui/screens/sign_in/sign_in_screen.dart';
 import 'package:library_system/updatebook_page.dart';
+import 'package:http/http.dart' as http;
 
 import 'addbook_page.dart';
 
-class AdminMainPage extends StatelessWidget {
+class AdminMainPage extends StatefulWidget {
   const AdminMainPage({Key? key}) : super(key: key);
+
+  @override
+  State<AdminMainPage> createState() => _AdminMainPageState();
+}
+
+class _AdminMainPageState extends State<AdminMainPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    generateBookList();
+    setState(() {});
+  }
+
+  Future<dynamic> generateBookList() async {
+    print('asa');
+    // Give your sever URL of get_employees_details.php file
+    var url = Uri.parse('http://10.0.2.2/login/book.php');
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2/login/book.php'));
+    var list = json.decode(response.body);
+    List<Book> book =
+        await list.map<Book>((json) => Book.fromJson(json)).toList();
+    print(book[0].book_id);
+    setState(() {
+      books = book;
+    });
+    return book;
+  }
+
+  List<Book> books = [];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +98,9 @@ class AdminMainPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 60,),
+                  SizedBox(
+                    height: 60,
+                  ),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -95,7 +134,9 @@ class AdminMainPage extends StatelessWidget {
                                 children: [
                                   Spacer(),
                                   Image.asset(
-                                      'assets/images/update.png',width: 90,),
+                                    'assets/images/update.png',
+                                    width: 90,
+                                  ),
                                   Spacer(),
                                   Text(
                                     'Update Book',
@@ -130,19 +171,18 @@ class AdminMainPage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushAndRemoveUntil(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ChangeStatus(),
+                                    builder: (context) => CartScreen(
+                                        books: books, title: "Change Status"),
                                   ),
-                                  (route) => false,
                                 );
                               },
                               child: Column(
                                 children: [
                                   Spacer(),
-                                  Image.asset(
-                                      'assets/images/status.png',
+                                  Image.asset('assets/images/status.png',
                                       height: 80),
                                   Spacer(),
                                   Text(
@@ -192,8 +232,7 @@ class AdminMainPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Spacer(),
-                                  Image.asset(
-                                      'assets/images/add.png',
+                                  Image.asset('assets/images/add.png',
                                       height: 80),
                                   Spacer(),
                                   Text(
@@ -209,9 +248,8 @@ class AdminMainPage extends StatelessWidget {
                         ),
 
                         MenuCard(
-                          title: 'Edit Other Things',
-                          imagePath:
-                          'assets/images/edit.png',
+                          title: 'Log Out',
+                          imagePath: 'assets/images/logout.png',
                         )
                       ],
                     ),
@@ -251,7 +289,50 @@ class MenuCard extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text(
+                    'The book has been updated!',
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.teal,
+                          fixedSize: const Size.fromWidth(100),
+                          padding: const EdgeInsets.all(10)),
+                      child: const Text("YES"),
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignInScreen()),
+                            (route) => false);
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.teal,
+                          fixedSize: const Size.fromWidth(100),
+                          padding: const EdgeInsets.all(10)),
+                      child: const Text("NO"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    SizedBox(width: 5),
+                  ],
+                );
+              },
+            );
+          },
           child: Column(
             children: [
               Spacer(),

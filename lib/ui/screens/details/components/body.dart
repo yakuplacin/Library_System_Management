@@ -15,14 +15,25 @@ import 'product_images.dart';
 
 class Body extends StatefulWidget {
   final Book book;
+  final String title;
 
-  Body({Key? key, required this.book}) : super(key: key);
+  Body({Key? key, required this.book, required this.title}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  Future giveBook() async {
+    print('${widget.book.book_id} asdasd');
+    final response = await http
+        .post(Uri.parse("http://10.0.2.2/login/changestatus.php"), body: {
+      "book_id": widget.book.book_id as String,
+      "book_status": widget.book.book_status,
+    });
+    //var dataBook = json.decode(response.body);
+  }
+
   bool isDone = false;
   String formattedDate =
       DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
@@ -82,8 +93,8 @@ class _BodyState extends State<Body> {
             children: [
               Image.asset(
                 "assets/images/${widget.book.book_genre.toString().toLowerCase()}.png",
-                width: 275,
-                height: 275,
+                width: 250,
+                height: 250,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -155,70 +166,117 @@ class _BodyState extends State<Body> {
                         left: SizeConfig.screenWidth * 0.15,
                         right: SizeConfig.screenWidth * 0.15,
                       ),
-                      child: Column(
-                        children: [
-                          // FloatingActionButton(
-                          //   onPressed: () {},
-                          //   child: Icon(
-                          //     Icons.add,
-                          //   ),
-                          // ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: DefaultButton(
-                                  text: "WishList",
-                                  press: () async {
-                                    await addWishlist();
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(
-                                            'The book has been added to your Wishlist!!',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        );
-                                      },
-                                    );
+                      child: widget.title == "Change Status"
+                          ? Column(
+                              children: [
+                                DefaultButton(
+                                  text: "Give book to Student",
+                                  press: () {
+                                    setState(() {
+                                      widget.book.book_status = "given";
+                                    });
+                                    giveBook();
                                   },
                                 ),
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Expanded(
-                                child: DefaultButton(
-                                  text: "Reservation",
-                                  press: () {
-                                    //      if (widget.book_status != 'reserve' && widget.book_status != 'given') {
-                                    if (widget.book.book_status == 'exist') {
-                                      reserveBook();
-                                      setState(() {
-                                        widget.book.book_status = "reserve";
-                                      });
-//                          Navigator.pop(context);
-                                    } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            content: Text(
-                                              'The book has been reserved before!\n\nYou cannot reserve this book now!',
-                                              textAlign: TextAlign.center,
-                                            ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: DefaultButton(
+                                        text: "Student gave the Book",
+                                        press: () {
+                                          setState(() {
+                                            widget.book.book_status = "exist";
+                                          });
+                                          giveBook();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                // FloatingActionButton(
+                                //   onPressed: () {},
+                                //   child: Icon(
+                                //     Icons.add,
+                                //   ),
+                                // ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: DefaultButton(
+                                        text: "WishList",
+                                        press: () async {
+                                          await addWishlist();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                content: Text(
+                                                  'The book has been added to your Wishlist!!',
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    }
-                                  },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    Expanded(
+                                      child: DefaultButton(
+                                        text: "Reservation",
+                                        press: () async {
+                                          //      if (widget.book_status != 'reserve' && widget.book_status != 'given') {
+                                          if (widget.book.book_status =='exist') {
+                                           await reserveBook();
+                                            setState(() {
+                                              widget.book.book_status =
+                                                  "reserve";
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    content: Text(
+                                                      'The book has been reserved!\n\nYou can take the book!!',
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            });
+//                          Navigator.pop(context);
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  content: Text(
+                                                    'The book has been reserved before!\n\nYou cannot reserve this book now!',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              ],
+                            ),
                     ),
                   ),
                 ],

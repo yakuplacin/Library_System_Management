@@ -43,6 +43,17 @@ class _AddBookPageState extends State<AddBookPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text(
+                      'The book has been added!',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+              );
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

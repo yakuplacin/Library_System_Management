@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:library_system/ui/screens/sign_in/sign_in_screen.dart';
+import 'package:crypt/crypt.dart';
 
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/default_button.dart';
@@ -7,17 +10,31 @@ import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../../complete_profile/complete_profile_screen.dart';
 
-
 class SignUpForm extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  Future addStudent() async {
+    final response = await http
+        .post(Uri.parse("http://10.0.2.2/login/studentregister.php"), body: {
+      "student_id": id,
+      "student_name": name,
+      "student_surname": surname,
+      "email": email,
+      "password": password,//await hashing(password!)
+      "id": id,
+      "username": email,
+      "level": "student"
+    });
+    //var dataBook = json.decode(response.body);
+  }
+
   final _formKey = GlobalKey<FormState>();
-  String? email,name,surname;
+  String? email, name, surname;
   String? password;
-  int? id;
+  String? id;
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
@@ -28,6 +45,13 @@ class _SignUpFormState extends State<SignUpForm> {
         errors.add(error);
       });
   }
+
+  // Future<String> hashing(String hassingPassword) async {
+  //   String hashedPassword = await Crypt.sha256(hassingPassword).toString();
+  //   print(hashedPassword);
+  //
+  //   return hashedPassword;
+  // }
 
   void removeError({String? error}) {
     if (errors.contains(error))
@@ -57,10 +81,27 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                // if all are valid then go to success screen
+
+                await addStudent();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInScreen()),
+                    (route) => false);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(
+                        'You have registered to system!\n\nYou can now log in!!',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                );
+
                 Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
@@ -168,6 +209,7 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+
   TextFormField buildNameFormField() {
     return TextFormField(
       keyboardType: TextInputType.text,
@@ -200,6 +242,7 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+
   TextFormField buildSurNameFormField() {
     return TextFormField(
       keyboardType: TextInputType.text,
@@ -236,7 +279,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildIdFormField() {
     return TextFormField(
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => id = int.parse(newValue!),
+      onSaved: (newValue) => id = newValue!,
       onChanged: (value) {
         // if (value.isNotEmpty) {
         //   removeError(error: kEmailNullError);

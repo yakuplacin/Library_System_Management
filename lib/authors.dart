@@ -36,6 +36,8 @@ print(widget.authorId);
       authors = author;
     });
     return author;
+    // print(author[0].author_id)
+    // print(author[0].author_id)
   }
 
   @override
@@ -45,7 +47,7 @@ print(widget.authorId);
       body: ListView.builder(
         itemCount: authors.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
+          return Container(  // delete container if not necessary
             child: ListTile(
               leading: Text('${authors[index].author_id}'),
               title: Text(authors[index].author_name),

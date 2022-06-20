@@ -10,9 +10,9 @@ import '../../../helper/keyboard.dart';
 import '../../../size_config.dart';
 import '../../forgot_password/forgot_password_screen.dart';
 import '../../login_success/login_success_screen.dart';
+import 'package:crypt/crypt.dart';
 
 class SignForm extends StatefulWidget {
-
   static var datause;
 
   @override
@@ -26,27 +26,35 @@ class _SignFormState extends State<SignForm> {
   bool? remember = false;
   final List<String?> errors = [];
 
-
   Future<List> login() async {
+    //   print('${await hashing(password!)} sadasdasdasd');
     final response =
-    await http.post(Uri.parse("http://10.0.2.2/login/login.php"), body: {
+        await http.post(Uri.parse("http://10.0.2.2/login/login.php"), body: {
       "username": email,
-      "password": password,
+      "password": password, //await hashing(password!)
     });
 
     var dataset = json.decode(response.body);
+       print(dataset.toString());
 
-    if (dataset[0]['level'] == 'admin') {
-      print(dataset);
-    }
+    // if (dataset[0]['level'] == 'admin') {
+    //   print(dataset);
+    // }
 
     setState(() {
       SignForm.datause = dataset;
     });
-    print(dataset[0]);
+     print(dataset[0]);
     return dataset;
   }
 
+  // Future<String> hashing(String hassingPassword) async {
+  //   var hashedPassword = Crypt.sha256(hassingPassword).toString();
+  //
+  // //  print(hashedPassword);
+  //
+  //   return hashedPassword;
+  // }
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -74,32 +82,30 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-
-
-            ],
+            children: [],
           ),
-
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               print('continue pressed');
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                login();
+                await login();
+                print(SignForm.datause);
                 if (SignForm.datause != null) {
+                  print('!asdfjsdgldfskglsdhfglşdkfjghkjsdfhg');
                   if (SignForm.datause[0]['level'] == 'student' ||
                       SignForm.datause[0]['level'] == 'Student' ||
                       SignForm.datause[0]['level'].toLowerCase() == 'student') {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                HomeScreen(SignForm.datause)));
+                            builder: (context) => HomeScreen(SignForm.datause)),
+                        (route) => false);
                   } else {
                     showDialog(
                       context: context,
@@ -115,8 +121,7 @@ class _SignFormState extends State<SignForm> {
                   }
                 }
 
-              //  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen(datause)));
-
+                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen(datause)));
 
               }
             },
@@ -133,7 +138,7 @@ class _SignFormState extends State<SignForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
+        } else if (value.length >= 6) {
           removeError(error: kShortPassError);
         }
         return null;
@@ -142,7 +147,7 @@ class _SignFormState extends State<SignForm> {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 6) {
           addError(error: kShortPassError);
           return "";
         }

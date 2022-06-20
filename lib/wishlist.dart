@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:library_system/reservebook_page.dart';
 import 'package:library_system/student_main_page.dart';
+import 'package:library_system/ui/constants.dart';
+import 'package:library_system/ui/screens/details/details_screen.dart';
+import 'package:library_system/ui/screens/sign_in/components/sign_form.dart';
 import 'package:library_system/wishlistBookId.dart';
 
 import 'Book.dart';
@@ -18,12 +21,10 @@ class Wishlist extends StatefulWidget {
 }
 
 class _WishlistState extends State<Wishlist> {
-  late List<WishlistBookId> wbId = [];
-
   void initState() {
     // print('Init is started here');
-    // setState(() {});
     generateWishlistIds();
+    setState(() {});
   }
 
   late List<Book> bookss = [];
@@ -32,7 +33,7 @@ class _WishlistState extends State<Wishlist> {
     print('asda');
     final response = await http
         .post(Uri.parse('http://10.0.2.2/login/findwishlist.php'), body: {
-      "student_id": widget.datause[0]['id'],
+      "student_id": SignForm.datause[0]['id'],
     });
     var list = json.decode(response.body);
     List<Book> book =
@@ -49,21 +50,24 @@ class _WishlistState extends State<Wishlist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wishlist'),
+        title: Text(
+          'WishList',
+          style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
         leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => StudentMainPage(widget.datause)));
-          },
           icon: Icon(
             Icons.arrow_back_ios,
+            color: kPrimaryColor,
           ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.white,
       body: ListView.builder(
+        shrinkWrap: true,
         itemCount: bookss.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
@@ -83,46 +87,40 @@ class _WishlistState extends State<Wishlist> {
               child: ListTile(
                 onTap: () {
                   // print(books[index].book_id);
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ReserveBookPage(
-                          bookss[index].book_id,
-                          bookss[index].book_genre,
-                          bookss[index].book_title,
-                          bookss[index].book_status,
-                          bookss[index].ISBN,
-                          bookss[index].publisher_id,
-                          bookss[index].author_id,
-                          widget.datause),
+                      builder: (context) =>
+                          DetailsScreen(book: bookss[index], title: "Wishlist"),
                     ),
-                    (route) => false,
                   );
                 },
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      (index + 1).toString(),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
+                leading: Image.asset(
+                    'assets/images/${bookss[index].book_genre.toLowerCase()}.png'),
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${bookss[index].book_genre} '),
-                    Text('${bookss[index].book_title} '),
+                    Text(
+                      '${bookss[index].book_genre} ',
+                      style: TextStyle(
+                          color: kPrimaryColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${bookss[index].book_title} ',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                     Row(
                       children: [
-                        Text('${bookss[index].book_status} '),
-                        Text('${bookss[index].ISBN} '),
-                        Text('${bookss[index].publisher_id} '),
-                        Text('${bookss[index].author_id} '),
+                        Text('Book Status:'),
+                        Text(
+                          ' ${bookss[index].book_status} ',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.purpleAccent
+                          ),
+                        ),
                       ],
                     ),
                   ],

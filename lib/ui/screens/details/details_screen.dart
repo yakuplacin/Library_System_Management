@@ -7,8 +7,9 @@ import 'components/custom_app_bar.dart';
 
 class DetailsScreen extends StatelessWidget {
   Book book;
+  String title;
 
-  DetailsScreen({Key? key,required this.book}) : super(key: key);
+  DetailsScreen({Key? key, required this.book, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +17,13 @@ class DetailsScreen extends StatelessWidget {
       backgroundColor: Color(0xFFF5F6F9),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-        child: CustomAppBar(rating: book.book_genre.toString()),
+        child: CustomAppBar(rating: book.book_genre.toString(),),
+
       ),
-      body: Body(book: book,),
+      body: Body(
+        book: book,
+        title: title,
+      ),
     );
   }
 }
-

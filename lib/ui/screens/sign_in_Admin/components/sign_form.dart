@@ -35,7 +35,9 @@ class _SignFormState extends State<SignForm> {
 
     if (datauser[0]['level'] == 'admin') {
       print(datauser);
+
     }
+
     setState(() {
       test = datauser;
       print(datauser);
@@ -81,6 +83,7 @@ class _SignFormState extends State<SignForm> {
               // if all are valid then go to success screen
               KeyboardUtil.hideKeyboard(context);
               await login();
+              print(test[0]['password']);
               if (test[0]['level'] == 'admin') {
                 Navigator.push(
                   context,

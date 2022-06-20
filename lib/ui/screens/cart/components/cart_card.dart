@@ -6,20 +6,38 @@ import '../../../constants.dart';
 import '../../../models/Cart.dart';
 import '../../../size_config.dart';
 
-class CartCard extends StatelessWidget {
+class CartCard extends StatefulWidget {
   const CartCard({
     Key? key,
     required this.cart,
+    required this.title,
   }) : super(key: key);
 
   final Book cart;
+  final String title;
+
+  @override
+  State<CartCard> createState() => _CartCardState();
+}
+
+class _CartCardState extends State<CartCard> {
+
+  initState(){
+    setState((){});
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print('asdasdasd');
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsScreen(book: cart)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(book: widget.cart, title: widget.title),
+          ),
+        );
+        //////
       },
       child: Row(
         children: [
@@ -33,7 +51,9 @@ class CartCard extends StatelessWidget {
                   color: Color(0xFFF5F6F9),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Image.asset("assets/images/"+cart.book_genre.toString().toLowerCase()+".png"),
+                child: Image.asset("assets/images/" +
+                    widget.cart.book_genre.toString().toLowerCase() +
+                    ".png"),
               ),
             ),
           ),
@@ -42,19 +62,21 @@ class CartCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cart.book_title.length > 25 ? '${cart.book_title.substring(0,24)}  ...' : cart.book_title,
+                widget.cart.book_title.length > 25
+                    ? '${widget.cart.book_title.substring(0, 24)}  ...'
+                    : widget.cart.book_title,
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 2,
               ),
               SizedBox(height: 10),
               Text.rich(
                 TextSpan(
-                  text: "${cart.book_genre}",
+                  text: "${widget.cart.book_genre}",
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
                   children: [
                     TextSpan(
-                        text: " ${cart.book_status}",
+                        text: " ${widget.cart.book_status}",
                         style: Theme.of(context).textTheme.bodyText1),
                   ],
                 ),

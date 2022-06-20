@@ -33,7 +33,7 @@ class ProductCard extends StatelessWidget {
                 aspectRatio: 1.02,
                 child: GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsScreen(book: product,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsScreen(book: product,title: product.book_title,)));
                   },
                   child: Container(
                     padding: EdgeInsets.all(getProportionateScreenWidth(20)),
